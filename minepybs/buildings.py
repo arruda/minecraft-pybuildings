@@ -28,7 +28,7 @@ class TemplateBuilding(object):
 
 
 class House(TemplateBuilding):
-    """A simple 5x5 house"""
+    """A simple 4x4 house"""
 
     def __init__(self, template_name="house.yml"):
         super(House, self).__init__(template_name=template_name)
