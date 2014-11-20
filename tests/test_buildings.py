@@ -2,10 +2,10 @@
 # -*- coding: utf-8 -*-
 
 """
-test_minepybs
+test_buildings
 ----------------------------------
 
-Tests for `minepybs` module.
+Tests for `buildings` module.
 """
 import os
 
@@ -14,7 +14,7 @@ import unittest
 from minepybs import buildings
 
 
-class TestMinepybs(unittest.TestCase):
+class TestBuildings(unittest.TestCase):
 
     def setUp(self):
         pass
