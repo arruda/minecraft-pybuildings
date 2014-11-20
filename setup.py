@@ -22,6 +22,7 @@ dependency_links = [
 ]
 
 test_requirements = [
+    'coverage>=3.7.1',
     'Cython>=0.21.1',
     'PyYAML>=3.11',
     'numpy>=1.9.1'
