@@ -31,7 +31,33 @@ class TestBuildings(unittest.TestCase):
 
     def test_get_block_with_only_id(self):
         "test if the 'get_block' can pass the correct info info only the id is present"
-        self.fail("Implement!")
+
+        template_test = {0:
+                        [
+                            ['1', '2', '3', '4'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1']
+                        ],
+                        1:
+                        [
+                            ['1', '1', '1', '1'],
+                            ['1', '5', '1', '1'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1']
+                        ]
+                        }
+        template_building = buildings.TemplateBuilding('template_test')
+        template_building.template = template_test
+        self.assertEquals(
+            template_building.get_block(x=0, y=0, z=0),
+            {'id': 1, 'pivot': None, 'n': None}
+        )
+
+        self.assertEquals(
+            template_building.get_block(x=1, y=1, z=1),
+            {'id': 5, 'pivot': None, 'n': None}
+        )
 
     def tearDown(self):
         pass

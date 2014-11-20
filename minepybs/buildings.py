@@ -32,8 +32,8 @@ class TemplateBuilding(object):
         Read the information from the block X, Y, Z
         Where:
 
-            * X: are the lines in the yaml file.
-            * Y: the colums in the yaml file.
+            * X: the colums in the yaml file.
+            * Y: are the lines in the yaml file.
             * Z: each entry in the yaml file.
 
         If the information in this 'position' is a string, then
@@ -48,7 +48,7 @@ class TemplateBuilding(object):
         this can be used to mark places where you want to
         place other sub-structures inside this structure when rendering.
         """
-        block_info = self.template[z][x][y]
+        block_info = self.template[z][y][x]
         block_dict = {
             'id': None,
             'n': None,
