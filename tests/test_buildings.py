@@ -30,7 +30,7 @@ class TestBuildings(unittest.TestCase):
         self.assertIsNotNone(house.load())
 
     def test_get_block_with_only_id(self):
-        "test if the 'get_block' can pass the correct info info only the id is present"
+        "test if the 'get_block' can pass the correct info if only the id is present"
 
         template_test = {0:
                         [
@@ -58,6 +58,30 @@ class TestBuildings(unittest.TestCase):
             template_building.get_block(x=1, y=1, z=1),
             {'id': 5, 'pivot': None, 'n': None}
         )
+
+    def test_get_next_block(self):
+        "test if get_next_block really works"
+
+        template_test = {0:
+                        [
+                            ['1', '2'],
+                            ['3', '4'],
+                        ],
+                        1:
+                        [
+                            ['5', '6'],
+                            ['7', '8'],
+                        ]
+                        }
+        template_building = buildings.TemplateBuilding('template_test')
+        template_building.template = template_test
+        for i in xrange(1, 9):
+            self.assertEquals(
+                template_building.get_next_block(),
+                {'id': i, 'pivot': None, 'n': None}
+            )
+        self.assertIsNone(template_building.get_next_block())
+        self.assertIsNone(template_building.get_next_block())
 
     def tearDown(self):
         pass

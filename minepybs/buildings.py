@@ -15,6 +15,7 @@ class TemplateBuilding(object):
         super(TemplateBuilding, self).__init__()
         self.template_name = template_name
         self.template = None
+        self._current_block_pos = None
 
     def load(self):
         """
@@ -61,6 +62,32 @@ class TemplateBuilding(object):
             block_dict = block_info
 
         return block_dict
+
+    def get_next_block(self):
+        "get the next block to build in a map"
+        next_pos = []
+        if self._current_block_pos:
+            next_pos.extend(self._current_block_pos)
+
+            # x + 1
+            next_pos[2] += 1
+            if not next_pos[2] < len(self.template[next_pos[0]][next_pos[1]]):
+                # y + 1
+                next_pos[2] = 0
+                next_pos[1] += 1
+                if not next_pos[1] < len(self.template[next_pos[0]]):
+                    # z + 1
+                    next_pos[1] = 0
+                    next_pos[0] += 1
+                    if not self.template.get(next_pos[0]):
+                        # reach the end there is no more blocks
+                        return None
+        else:
+            self._current_block_pos = [0, 0, 0]
+            next_pos.extend(self._current_block_pos)
+
+        self._current_block_pos = next_pos
+        return self.get_block(x=next_pos[2], y=next_pos[1], z=next_pos[0])
 
 
 class House(TemplateBuilding):
