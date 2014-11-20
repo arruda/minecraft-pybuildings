@@ -20,23 +20,23 @@ test_requirements = [
 ]
 
 setup(
-    name='minecraft-pybuildings',
+    name='minepybs',
     version='0.1.0',
     description='Some predefined structures using yaml and pymclevel to build them on any minecraft map',
     long_description=readme + '\n\n' + history,
     author='Felipe Arruda Pontes',
     author_email='contato@arruda.blog.br',
-    url='https://github.com/arruda/minecraft-pybuildings',
+    url='https://github.com/arruda/minepybs',
     packages=[
-        'minecraft-pybuildings',
+        'minepybs',
     ],
-    package_dir={'minecraft-pybuildings':
-                 'minecraft-pybuildings'},
+    package_dir={'minepybs':
+                 'minepybs'},
     include_package_data=True,
     install_requires=requirements,
     license="BSD",
     zip_safe=False,
-    keywords='minecraft-pybuildings',
+    keywords='minepybs',
     classifiers=[
         'Development Status :: 2 - Pre-Alpha',
         'Intended Audience :: Developers',

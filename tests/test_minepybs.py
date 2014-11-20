@@ -2,18 +2,18 @@
 # -*- coding: utf-8 -*-
 
 """
-test_minecraft-pybuildings
+test_minepybs
 ----------------------------------
 
-Tests for `minecraft-pybuildings` module.
+Tests for `minepybs` module.
 """
 
 import unittest
 
-from minecraft-pybuildings import minecraft-pybuildings
+from minepybs import minepybs
 
 
-class TestMinecraft-pybuildings(unittest.TestCase):
+class TestMinepybs(unittest.TestCase):
 
     def setUp(self):
         pass

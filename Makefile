@@ -32,7 +32,7 @@ clean-test:
 	rm -fr htmlcov/
 
 lint:
-	flake8 minecraft-pybuildings tests
+	flake8 minepybs tests
 
 test:
 	python setup.py test
@@ -41,15 +41,15 @@ test-all:
 	tox
 
 coverage:
-	coverage run --source minecraft-pybuildings setup.py test
+	coverage run --source minepybs setup.py test
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
 
 docs:
-	rm -f docs/minecraft-pybuildings.rst
+	rm -f docs/minepybs.rst
 	rm -f docs/modules.rst
-	sphinx-apidoc -o docs/ minecraft-pybuildings
+	sphinx-apidoc -o docs/ minepybs
 	$(MAKE) -C docs clean
 	$(MAKE) -C docs html
 	open docs/_build/html/index.html

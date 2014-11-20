@@ -2,6 +2,6 @@
 Usage
 ========
 
-To use Minecraft Pybuildings in a project::
+To use Minecraft-PyBuildings in a project::
 
-    import minecraft-pybuildings
+    import minepybs

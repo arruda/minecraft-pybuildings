@@ -115,9 +115,9 @@ if "%1" == "qthelp" (
 	echo.
 	echo.Build finished; now you can run "qcollectiongenerator" with the ^
 .qhcp project file in %BUILDDIR%/qthelp, like this:
-	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\minecraft-pybuildings.qhcp
+	echo.^> qcollectiongenerator %BUILDDIR%\qthelp\minepybs.qhcp
 	echo.To view the help file:
-	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\minecraft-pybuildings.ghc
+	echo.^> assistant -collectionFile %BUILDDIR%\qthelp\minepybs.ghc
 	goto end
 )
 
