@@ -19,7 +19,7 @@ class TestMinepybs(unittest.TestCase):
     def setUp(self):
         pass
 
-    def test_can_load_from_correct_path(self):
+    def test_if_templates_dir_is_set_correctly(self):
         templates_dir = buildings.TemplateBuilding.TEMPLATES_DIR
         self.assertTrue(os.path.isdir(templates_dir), msg="TEMPLATES_DIR not set correctly.")
 
