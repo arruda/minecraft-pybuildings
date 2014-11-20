@@ -5,8 +5,8 @@ Minecraft-PyBuildings
 .. image:: https://badge.fury.io/py/minepybs.png
     :target: http://badge.fury.io/py/minepybs
 
-.. image:: https://travis-ci.org/arruda/minepybs.png?branch=master
-        :target: https://travis-ci.org/arruda/minepybs
+.. image:: https://travis-ci.org/arruda/minecraft-pybuildings.png?branch=master
+        :target: https://travis-ci.org/arruda/minecraft-pybuildings
 
 .. image:: https://pypip.in/d/minepybs/badge.png
         :target: https://pypi.python.org/pypi/minepybs
