@@ -29,6 +29,10 @@ class TestBuildings(unittest.TestCase):
         house = buildings.House()
         self.assertIsNotNone(house.load())
 
+    def test_get_block_with_only_id(self):
+        "test if the 'get_block' can pass the correct info info only the id is present"
+        self.fail("Implement!")
+
     def tearDown(self):
         pass
 
