@@ -9,7 +9,7 @@ class TemplateBuilding(object):
         Main class that represents a template for any building
         using an yaml file.
     """
-    TEMPLATES_DIR = 'templates'
+    TEMPLATES_DIR = os.path.join(os.path.dirname(os.path.abspath(__file__)), "templates")
 
     def __init__(self, template_name):
         super(TemplateBuilding, self).__init__()
