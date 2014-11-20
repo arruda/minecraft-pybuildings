@@ -26,7 +26,7 @@ setup(
     long_description=readme + '\n\n' + history,
     author='Felipe Arruda Pontes',
     author_email='contato@arruda.blog.br',
-    url='https://github.com/arruda/minepybs',
+    url='https://github.com/arruda/minecraft-pybuildings',
     packages=[
         'minepybs',
     ],
