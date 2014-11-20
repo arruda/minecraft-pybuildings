@@ -8,6 +8,10 @@ Minecraft-PyBuildings
 .. image:: https://travis-ci.org/arruda/minecraft-pybuildings.png?branch=master
         :target: https://travis-ci.org/arruda/minecraft-pybuildings
 
+.. image:: https://coveralls.io/repos/arruda/minecraft-pybuildings/badge.png
+  :target: https://coveralls.io/r/arruda/minecraft-pybuildings
+
+
 .. image:: https://pypip.in/d/minepybs/badge.png
         :target: https://pypi.python.org/pypi/minepybs
 
