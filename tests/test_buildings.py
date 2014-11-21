@@ -42,9 +42,9 @@ class TestBuildings(unittest.TestCase):
                         1:
                         [
                             ['1', '1', '1', '1'],
-                            ['1', '5', '1', '1'],
                             ['1', '1', '1', '1'],
-                            ['1', '1', '1', '1']
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '5', '1']
                         ]
                         }
         template_building = buildings.TemplateBuilding('template_test')
@@ -55,7 +55,7 @@ class TestBuildings(unittest.TestCase):
         )
 
         self.assertEquals(
-            template_building.get_block(x=1, y=1, z=1),
+            template_building.get_block(x=2, y=1, z=3),
             {'id': 5, 'pivot': None, 'n': None}
         )
 
