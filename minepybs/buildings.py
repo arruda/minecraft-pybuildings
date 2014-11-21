@@ -113,14 +113,15 @@ class TemplateBuilding(object):
             next_x = int(x + self._current_block_pos[2])
             next_z = int(z + self._current_block_pos[1])
             next_y = int(y + self._current_block_pos[0])
-            level.setBlockAt(next_x, next_y, next_z, block['id'])
+            block_name = self.template['legend'][str(block['id'])]
+
+            block_id = level.materials.get(block_name).ID
+            level.setBlockAt(next_x, next_y, next_z, block_id)
             block = self.get_next_block()
 
         for chunk_pos in chunk_positions:
             chunk = level.getChunk(chunk_pos[0], chunk_pos[1])
             chunk.chunkChanged()
-
-        level.saveInPlace()
 
         return level
 

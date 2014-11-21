@@ -9,6 +9,6 @@
     - ["1", "2", "2", "1"]
     - ["1", "1", "1", "1"]
 
-legend: {"1":"Cooblestone", "2":"Grass"}
+legend: {"1":"Stone", "2":"Grass"}
 
 size: [4, 2, 4]
