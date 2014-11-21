@@ -3,8 +3,8 @@ import os
 
 import yaml
 
-import mclevel
 from box import BoundingBox
+
 
 class TemplateBuilding(object):
     """
@@ -18,6 +18,7 @@ class TemplateBuilding(object):
         self.template_name = template_name
         self.template = None
         self._current_block_pos = None
+        self.size = None
 
     def load(self):
         """
@@ -101,7 +102,8 @@ class TemplateBuilding(object):
         if not level or not x or not y:
             raise Exception(msg="Should pass the level, and (x,y,z) coordinates")
 
-        bbox = BoundingBox(origin=(x, y, z), size=(10, 10, 10))
+        size = self.template['size']
+        bbox = BoundingBox(origin=(x, y, z), size=size)
         # bbox = bbox.chunkBox(level)
         chunk_positions = bbox.chunkPositions
         # ensure no chunks that might be needed won't be left undone
