@@ -11,7 +11,10 @@ import os
 
 import unittest
 
+import mclevel
+
 from minepybs import buildings
+from box import BoundingBox
 
 
 class TestBuildings(unittest.TestCase):
@@ -23,11 +26,6 @@ class TestBuildings(unittest.TestCase):
         "check if the templates_dir was set relative to the buildings.py file"
         templates_dir = buildings.TemplateBuilding.TEMPLATES_DIR
         self.assertTrue(os.path.isdir(templates_dir), msg="TEMPLATES_DIR not set correctly.")
-
-    def test_can_load_a_house_template(self):
-        "test if can load the 'house.yml' file"
-        house = buildings.House()
-        self.assertIsNotNone(house.load())
 
     def test_get_block_with_only_id(self):
         "test if the 'get_block' can pass the correct info if only the id is present"
@@ -85,6 +83,53 @@ class TestBuildings(unittest.TestCase):
 
     def tearDown(self):
         pass
+
+
+class TestHouse(unittest.TestCase):
+
+    def setUp(self):
+        self.test_level = mclevel.fromFile("tests/test_map/testworld/level.dat")
+
+    def test_can_load_a_house_template(self):
+        "test if can load the 'house.yml' file"
+        house = buildings.House()
+        self.assertIsNotNone(house.load())
+
+    def test_generate_house_do_something(self):
+        "test if a house is really doing something in the test map"
+        build_pos = (731, 3, 1454)
+
+        house = buildings.House()
+        box_size = house.load()['size']
+
+        bbox = BoundingBox(origin=build_pos, size=box_size)
+
+        chunk_positions = list(bbox.chunkPositions)
+
+        # get info about the blocks in the affected chunks
+        old_chunks_blocks = []
+        for chunk_pos in chunk_positions:
+            chunk = self.test_level.getChunk(*chunk_pos)
+            chunk_blocks_cp = chunk.Blocks.copy()
+            old_chunks_blocks.append(chunk_blocks_cp)
+
+        house.generate(self.test_level, *build_pos)
+
+        # check all the new chunks blocks, against
+        # the old ones (before the generation)
+        old_chunk_iter = 0
+        for chunk_pos in chunk_positions:
+            chunk = self.test_level.getChunk(*chunk_pos)
+            old_chunk_blocks = old_chunks_blocks[old_chunk_iter]
+            verify = old_chunk_blocks == chunk.Blocks
+            # assert that shouldn't have all blocks
+            # the same before generating the building
+            self.assertFalse(verify.all())
+            old_chunk_iter += 1
+
+    def tearDown(self):
+        # ensure the file locks are closed
+        self.test_level.close()
 
 if __name__ == '__main__':
     unittest.main()
