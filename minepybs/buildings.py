@@ -4,6 +4,7 @@ import os
 import yaml
 
 import mclevel
+from box import BoundingBox
 
 class TemplateBuilding(object):
     """
@@ -90,23 +91,36 @@ class TemplateBuilding(object):
         self._current_block_pos = next_pos
         return self.get_block(x=next_pos[2], z=next_pos[1], y=next_pos[0])
 
-        # def generate(self, world, x=0, y=0, z=0):
-        #     """
-        #     Generate this building in this chunk,
-        #     starting using the given coordinates (relative to the chunk) as the (0,0,0)
-        #     for the new building.
-        #     """
-        #     if not world or not x or not y:
-        #         raise Exception(msg="Should pass the world, and (x,y,z) coordinates")
+    def generate(self, level, x=0, y=0, z=0):
+        """
+        Generate this building in this chunk,
+        starting using the given coordinates (relative to the chunk) as the (0,0,0)
+        for the new building.
+        """
 
-        #     block = self.get_next_block()
-        #     while block:
-        #         x = x + self._current_block_pos[2]
-        #         z = z + self._current_block_pos[1]
-        #         y = y + self._current_block_pos[0]
-        #         chunk.blocks[x, y, z] = block['id']
-        #         block = self.get_next_block()
-        #     return chunk
+        if not level or not x or not y:
+            raise Exception(msg="Should pass the level, and (x,y,z) coordinates")
+
+        bbox = BoundingBox(origin=(x, y, z), size=(10, 10, 10))
+        # bbox = bbox.chunkBox(level)
+        chunk_positions = bbox.chunkPositions
+        # ensure no chunks that might be needed won't be left undone
+        created_chunks = level.createChunksInBox(bbox)
+        block = self.get_next_block()
+        while block:
+            next_x = int(x + self._current_block_pos[2])
+            next_z = int(z + self._current_block_pos[1])
+            next_y = int(y + self._current_block_pos[0])
+            level.setBlockAt(next_x, next_y, next_z, block['id'])
+            block = self.get_next_block()
+
+        for chunk_pos in chunk_positions:
+            chunk = level.getChunk(chunk_pos[0], chunk_pos[1])
+            chunk.chunkChanged()
+
+        level.saveInPlace()
+
+        return level
 
 
 class House(TemplateBuilding):
