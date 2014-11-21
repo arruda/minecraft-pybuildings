@@ -26,4 +26,4 @@ def create_house_in_pos(x=0, y=0, z=0):
 
 if __name__ == "__main__":
 
-    create_house_in_pos(-259, 63, 195)
+    create_house_in_pos(-259, 64, 195)
