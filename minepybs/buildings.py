@@ -62,7 +62,8 @@ class TemplateBuilding(object):
         if type(block_info) == type(str()):
             block_dict['id'] = int(block_info)
         else:
-            block_dict = block_info
+            block_info['id'] = int(block_info['id'])
+            block_dict.update(block_info)
 
         return block_dict
 

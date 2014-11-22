@@ -57,6 +57,40 @@ class TestBuildings(unittest.TestCase):
             {'id': 5, 'pivot': None, 'n': None}
         )
 
+    def test_get_block_with_dict(self):
+        "test if the 'get_block' can pass the correct info if a dict is present"
+
+        template_test = {0:
+                        [
+                            [{'id': '1'}, '2', '3', '4'],
+                            [{'id': '1', 'n': 2}, '1', '1', '1'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1']
+                        ],
+                        1:
+                        [
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', '1', '1'],
+                            ['1', '1', {'id': '5', 'pivot': 'x'}, '1']
+                        ]
+                        }
+        template_building = buildings.TemplateBuilding('template_test')
+        template_building.template = template_test
+        self.assertEquals(
+            template_building.get_block(x=0, y=0, z=0),
+            {'id': 1, 'pivot': None, 'n': None}
+        )
+        self.assertEquals(
+            template_building.get_block(x=0, y=0, z=1),
+            {'id': 1, 'pivot': None, 'n': 2}
+        )
+
+        self.assertEquals(
+            template_building.get_block(x=2, y=1, z=3),
+            {'id': 5, 'pivot': 'x', 'n': None}
+        )
+
     def test_get_next_block(self):
         "test if get_next_block really works"
 
