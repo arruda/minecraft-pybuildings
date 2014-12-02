@@ -21,8 +21,8 @@ def create_house_in_pos(x=0, y=0, z=0):
     house = House()
     house.load()
     level = house.generate(level, x=player_pos[0], y=player_pos[1], z=player_pos[2])
-    level.saveInPlace()
     level.generateLights()
+    level.saveInPlace()
 
 
 if __name__ == "__main__":

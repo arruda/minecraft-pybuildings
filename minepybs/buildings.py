@@ -122,13 +122,19 @@ class TemplateBuilding(object):
                 block_name = self.template['legend'][str(block['id'])]
 
                 block_id = level.materials.get(block_name).ID
-                block_data = level.materials.get(block_name).blockData
+                # get the default block data,
+                # or the specified in template (if present)
+                block_data = int(block.get(
+                    'block_data',
+                    level.materials.get(block_name).blockData
+                ))
 
             # change the block only if it's needed
             # so if the block id is -1, it will ignore it
             if block['id'] >= 0:
                 level.setBlockAt(next_x, next_y, next_z, block_id)
                 level.setBlockDataAt(next_x, next_y, next_z, block_data)
+
             block = self.get_next_block()
 
         for chunk_pos in chunk_positions:
