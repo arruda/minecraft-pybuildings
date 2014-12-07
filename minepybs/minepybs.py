@@ -26,7 +26,6 @@ def create_house_in_pos(x=0, y=0, z=0):
 
 
 def create_rail_station_in_pos(x=0, y=0, z=0):
-    # import pdb;pdb.set_trace()
     level = mclevel.loadWorld("testworld")
     player_pos = (x, y, z)
     rail_station = TwoWaysRailStationSN()
