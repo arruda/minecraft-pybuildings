@@ -150,13 +150,32 @@ class House(TemplateBuilding):
         super(House, self).__init__(template_name=template_name)
 
 
-class TwoWaysRailStation(TemplateBuilding):
+class TwoWaysRailStationBase(TemplateBuilding):
     """
-    A Two Ways Rail Station
+    A Two Ways Rail Station Base.
+    This is used by the North-South, South-North, and so on..
+    """
+
+    def __init__(self, template_name="2ways_rail_station_s_n.yml"):
+        super(TwoWaysRailStationBase, self).__init__(template_name=template_name)
+
+    def generate(self, level, x=0, y=0, z=0):
+        """
+        Calculate the position to put the station,
+        positioning the station door(lower part) in front
+        of the given position x, y and z.
+        """
+        y -= 3
+        return super(TwoWaysRailStationBase, self).generate(level, x, y, z)
+
+
+class TwoWaysRailStationSN(TwoWaysRailStationBase):
+    """
+    A Two Ways Rail Station From South to North.
     """
 
     def __init__(self, template_name="rail_station.yml"):
-        super(TwoWaysRailStation, self).__init__(template_name=template_name)
+        super(TwoWaysRailStationSN, self).__init__(template_name=template_name)
 
     def generate(self, level, x=0, y=0, z=0):
         """
@@ -165,5 +184,4 @@ class TwoWaysRailStation(TemplateBuilding):
         of the given position x, y and z.
         """
         x -= 3
-        y -= 3
-        return super(TwoWaysRailStation, self).generate(level, x, y, z)
+        return super(TwoWaysRailStationSN, self).generate(level, x, y, z)
