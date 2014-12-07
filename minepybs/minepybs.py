@@ -3,7 +3,7 @@
 
 import mclevel
 
-from buildings import House, TwoWaysRailStation
+from buildings import House, TwoWaysRailStationSN
 
 
 def create_house_in_player_pos():
@@ -29,7 +29,7 @@ def create_rail_station_in_pos(x=0, y=0, z=0):
     # import pdb;pdb.set_trace()
     level = mclevel.loadWorld("testworld")
     player_pos = (x, y, z)
-    rail_station = TwoWaysRailStation()
+    rail_station = TwoWaysRailStationSN()
     rail_station.load()
     level = rail_station.generate(level, x=player_pos[0], y=player_pos[1], z=player_pos[2])
     level.generateLights()
