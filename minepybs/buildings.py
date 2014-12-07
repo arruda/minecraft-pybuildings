@@ -1,6 +1,7 @@
 # -*- coding: utf-8 -*-
 import os
 
+import numpy
 import yaml
 
 from box import BoundingBox
@@ -46,7 +47,6 @@ class TemplateBuilding(object):
         if is a dictionary, then will try to retrieve the datas:
 
             * id: the block's id;
-            * n: the number of times this block is repeated in this line;
             * pivot: integer that indicates if this position should be marked.
 
         this can be used to mark places where you want to
@@ -59,11 +59,11 @@ class TemplateBuilding(object):
             'pivot': None
         }
 
-        if type(block_info) == type(str()):
-            block_dict['id'] = int(block_info)
-        else:
+        if type(block_info) == type(dict()):
             block_info['id'] = int(block_info['id'])
             block_dict.update(block_info)
+        else:
+            block_dict['id'] = int(block_info)
 
         return block_dict
 
@@ -95,8 +95,8 @@ class TemplateBuilding(object):
 
     def generate(self, level, x=0, y=0, z=0):
         """
-        Generate this building in this chunk,
-        starting using the given coordinates (relative to the chunk) as the (0,0,0)
+        Generate this building in this position,
+        starting using the given coordinates as the (0,0,0)
         for the new building.
         """
 
@@ -116,6 +116,7 @@ class TemplateBuilding(object):
             next_y = int(y + self._current_block_pos[0])
             block_id = 0
             block_data = 0
+
             # get the block level's info only if there is a
             # block to be set
             if block['id'] > 0:
@@ -153,10 +154,11 @@ class House(TemplateBuilding):
 class TwoWaysRailStationBase(TemplateBuilding):
     """
     A Two Ways Rail Station Base.
-    This is used by the North-South, South-North, and so on..
+    This is used by the North-South, South-North,
+    East-West and West-East.
     """
 
-    def __init__(self, template_name="2ways_rail_station_s_n.yml"):
+    def __init__(self, template_name):
         super(TwoWaysRailStationBase, self).__init__(template_name=template_name)
 
     def generate(self, level, x=0, y=0, z=0):
@@ -171,11 +173,42 @@ class TwoWaysRailStationBase(TemplateBuilding):
 
 class TwoWaysRailStationSN(TwoWaysRailStationBase):
     """
-    A Two Ways Rail Station From South to North.
+    A Two Ways Rail Station from South-North/North-South.
+
+    To change from South-North to North-South position one should
+    pass the `flip=True` parameter when instantiating the class.
+    By default `flip` is `False`.
     """
 
-    def __init__(self, template_name="rail_station.yml"):
+    def __init__(self, template_name="2ways_rail_station_s_n.yml", flip=False):
+        self.flip = flip
         super(TwoWaysRailStationSN, self).__init__(template_name=template_name)
+
+    def load(self):
+        """
+        Loads the given template, but flip it if necessary.
+        """
+        super(TwoWaysRailStationSN, self).load()
+        if self.flip:
+            size = self.template.get('size')
+            for y in xrange(0, int(size[1])):
+                m = self.template.get(y)
+                # convert the blocks array to
+                # to a numpy int array
+                m_np = numpy.array(m, int)
+                # rotate the matrix in 180 degrees
+                m_np = numpy.rot90(m_np, k=2)
+
+                # exchange the old matrix for the new one
+                self.template[y] = m_np.tolist()
+
+            # change the button block_data, so that
+            # it faces the right direction
+            self.template['legend']['7']['block_data'] = "1"
+
+        # # exchange the x/z in size:
+        # self.template['size'] = [size[2], size[1], size[0]]
+        return self.template
 
     def generate(self, level, x=0, y=0, z=0):
         """
@@ -184,4 +217,8 @@ class TwoWaysRailStationSN(TwoWaysRailStationBase):
         of the given position x, y and z.
         """
         x -= 3
+
+        if self.flip:
+            z -= 6
+
         return super(TwoWaysRailStationSN, self).generate(level, x, y, z)
