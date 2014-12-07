@@ -8,12 +8,12 @@
     - ["2", "2", "2", "2"]
     - ["2", "0", "0", "2"]
     - ["2", "0", "0", "2"]
-    - ["2", {'id':"4", 'block_data': "2"}, "2", "2"]
+    - ["2", "4", "2", "2"]
 2:
     - ["2", "2", "2", "2"]
-    - ["2", {'id': "5", 'block_data': "1"}, "0", "2"]
-    - ["6", "0", "0", "6"]
-    - ["2", {'id':"4", 'block_data': "9"}, "2", "2"]
+    - ["2", "6", "0", "2"]
+    - ["7", "0", "0", "7"]
+    - ["2", "5", "2", "2"]
 3:
     - ["2", "2", "2", "2"]
     - ["2", "2", "2", "2"]
@@ -22,12 +22,13 @@
 
 legend:
     {
-        "1":"Stone",
-        "2":"Dark Oak Wood Planks",
-        "3": "Stone Slab",
-        "4": "Wooden Door",
-        "5": "Torch",
-        "6": "Glass"
+        "1":{name: "Stone"},
+        "2":{name: "Dark Oak Wood Planks"},
+        "3": {name: "Stone Slab"},
+        "4": {name: "Wooden Door", block_data: "2"},
+        "5": {name: "Wooden Door", block_data: "9"},
+        "6": {name: "Torch", block_data: "1"},
+        "7": {name: "Glass"}
 
     }
 
