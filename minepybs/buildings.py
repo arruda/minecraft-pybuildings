@@ -120,7 +120,6 @@ class TemplateBuilding(object):
             # block to be set
             if block['id'] > 0:
                 block_name = self.template['legend'][str(block['id'])]
-                print block_name
                 block_id = level.materials.get(block_name).ID
                 # get the default block data,
                 # or the specified in template (if present)
