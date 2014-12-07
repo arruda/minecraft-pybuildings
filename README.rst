@@ -24,8 +24,3 @@ Some predefined structures using yaml and pymclevel to build them on any minecra
 
 * Free software: BSD license
 * Documentation: https://minecraft-pybuildings.readthedocs.org.
-
-Features
---------
-
-* TODO
