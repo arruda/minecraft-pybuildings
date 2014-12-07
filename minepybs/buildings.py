@@ -120,7 +120,7 @@ class TemplateBuilding(object):
             # block to be set
             if block['id'] > 0:
                 block_name = self.template['legend'][str(block['id'])]
-
+                print block_name
                 block_id = level.materials.get(block_name).ID
                 # get the default block data,
                 # or the specified in template (if present)
@@ -149,3 +149,22 @@ class House(TemplateBuilding):
 
     def __init__(self, template_name="house.yml"):
         super(House, self).__init__(template_name=template_name)
+
+
+class TwoWaysRailStation(TemplateBuilding):
+    """
+    A Two Ways Rail Station
+    """
+
+    def __init__(self, template_name="rail_station.yml"):
+        super(TwoWaysRailStation, self).__init__(template_name=template_name)
+
+    def generate(self, level, x=0, y=0, z=0):
+        """
+        Calculate the position to put the station,
+        positioning the station door(lower part) in front
+        of the given position x, y and z.
+        """
+        x -= 3
+        y -= 3
+        return super(TwoWaysRailStation, self).generate(level, x, y, z)
