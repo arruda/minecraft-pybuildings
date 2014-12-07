@@ -222,3 +222,26 @@ class TwoWaysRailStationSN(TwoWaysRailStationBase):
             z -= 6
 
         return super(TwoWaysRailStationSN, self).generate(level, x, y, z)
+
+
+class RailWay(TemplateBuilding):
+    """
+    A closed rail way with a powered rail.
+    This is just a one block rail part.
+    If you want to build a path, then put many of
+    this along till you reach the desired point.
+    (doesn't include curves)
+    """
+
+    def __init__(self, template_name="rail_way_s_n.yml"):
+        super(RailWay, self).__init__(template_name=template_name)
+
+    def generate(self, level, x=0, y=0, z=0):
+        """
+        Calculate the position to put the railway,
+        positioning the rail in at the given position x, y and z.
+        """
+        x -= 1
+        y -= 2
+
+        return super(RailWay, self).generate(level, x, y, z)
