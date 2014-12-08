@@ -93,15 +93,12 @@ class TemplateBuilding(object):
         self._current_block_pos = next_pos
         return self.get_block(x=next_pos[2], z=next_pos[1], y=next_pos[0])
 
-    def generate(self, level, x=0, y=0, z=0):
+    def generate(self, level, x, y, z):
         """
         Generate this building in this position,
         starting using the given coordinates as the (0,0,0)
         for the new building.
         """
-
-        if not level or not x or not y:
-            raise Exception(msg="Should pass the level, and (x,y,z) coordinates")
 
         size = self.template['size']
         bbox = BoundingBox(origin=(x, y, z), size=size)
