@@ -177,7 +177,28 @@ class TestTwoWaysRailSystem(unittest.TestCase):
         point_b = [2, 1, 3]
         rail_system = buildings.TwoWaysRailSystem('level', point_a, point_b)
         rail_system.calculate_direction()
-        self.assertEquals(rail_system.direction, 1)
+        self.assertEquals(rail_system.direction, rail_system.DIRECTIONS['north_south'])
+
+    def test_calculate_direction_on_south_north(self):
+        point_a = [2, 1, 3]
+        point_b = [0, 0, 0]
+        rail_system = buildings.TwoWaysRailSystem('level', point_a, point_b)
+        rail_system.calculate_direction()
+        self.assertEquals(rail_system.direction, rail_system.DIRECTIONS['south_north'])
+
+    def test_calculate_direction_on_east_west(self):
+        point_a = [0, 0, 0]
+        point_b = [3, 1, 2]
+        rail_system = buildings.TwoWaysRailSystem('level', point_a, point_b)
+        rail_system.calculate_direction()
+        self.assertEquals(rail_system.direction, rail_system.DIRECTIONS['east_west'])
+
+    def test_calculate_direction_on_west_east(self):
+        point_a = [3, 1, 2]
+        point_b = [0, 0, 0]
+        rail_system = buildings.TwoWaysRailSystem('level', point_a, point_b)
+        rail_system.calculate_direction()
+        self.assertEquals(rail_system.direction, rail_system.DIRECTIONS['west_east'])
 
     def tearDown(self):
         # ensure the file locks are closed

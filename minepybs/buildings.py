@@ -255,10 +255,10 @@ class TwoWaysRailSystem(object):
     """
 
     DIRECTIONS = {
-        1: "north_south",
-        2: "west_east",
-        3: "south_north",
-        4: "east_west",
+        "north_south": 1,
+        "west_east": 2,
+        "south_north": 3,
+        "east_west": 4,
     }
 
     def __init__(self, level, point_a, point_b):
@@ -275,14 +275,44 @@ class TwoWaysRailSystem(object):
         set the correct direction,
         """
 
-        point_dif = [
+        point_diff = [
             self.point_a[0] - self.point_b[0],
             self.point_a[1] - self.point_b[1],
             self.point_a[2] - self.point_b[2]
         ]
 
+        most_diff_coord = 0
+
+        # work with positive values for the comparisons
+        mod = lambda x: x if x > 0 else x*-1
+
+        # dont compare Y for now, not sure it will be any different
+        # if mod(point_diff[1]) > mod(point_diff[most_diff_coord]):
+        #     most_diff_coord = 1
+        if mod(point_diff[2]) > mod(point_diff[most_diff_coord]):
+            most_diff_coord = 2
 
 
+        # check for the minimun distance for this Rail System
+        # if mod(point_diff[most_diff_coord]) < MINIMUM:
+
+        # is either a North-South or East-West case
+        if point_diff[most_diff_coord] < 0:
+            # it's East-west
+            if most_diff_coord == 0:
+                self.direction = self.DIRECTIONS['east_west']
+            # it's North-South
+            else:
+                self.direction = self.DIRECTIONS['north_south']
+
+        # is either a South-North or West-East case
+        elif point_diff[most_diff_coord] > 0:
+            # it's West-East
+            if most_diff_coord == 0:
+                self.direction = self.DIRECTIONS['west_east']
+            # it's South-North
+            else:
+                self.direction = self.DIRECTIONS['south_north']
 
     def generate_pa_rail_station(self):
         """
