@@ -310,7 +310,9 @@ class TwoWaysRailSystem(object):
 
     def calculate_direction(self):
         """
-        set the correct direction,
+        set the correct direction based on whats
+        the most significative coordinate when
+        comparing point A and point B.
         """
 
         self.point_diff = [
