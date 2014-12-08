@@ -323,11 +323,24 @@ class TwoWaysRailSystem(object):
         rail_station_a.load()
         rail_station_a.generate(self.level, *self.point_a)
 
+    def generate_pb_rail_station(self):
+        """
+        generate the Rail Station for Point B
+        """
+        flip = True
+        if self.direction == self.DIRECTIONS['south_north']:
+            flip = False
+
+        rail_station_b = TwoWaysRailStationNS(flip=flip)
+        rail_station_b.load()
+        rail_station_b.generate(self.level, *self.point_b)
+
     def generate(self):
         """
         Generate the Rail System
         """
         self.generate_pa_rail_station()
+        self.generate_pb_rail_station()
 
         return self.level
 
