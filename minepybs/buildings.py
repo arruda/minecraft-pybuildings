@@ -207,16 +207,56 @@ class TwoWaysRailStationNS(TwoWaysRailStationBase):
         # self.template['size'] = [size[2], size[1], size[0]]
         return self.template
 
-    def generate(self, level, x=0, y=0, z=0):
+    def calculate_position_relative_to_door(self, x, y, z):
         """
         Calculate the position to put the station,
         positioning the station door(lower part) in front
         of the given position x, y and z.
         """
-        x -= 3
 
+        x -= 3
         if self.flip:
             z -= 6
+        return [x, y, z]
+
+    def get_outgoing_way_pos(self, x, y, z):
+        """
+        Return the position of the outgoing way
+        This relative position to a given x, y, z pos
+        """
+        x, y, z = self.calculate_position_relative_to_door(x, y, z)
+        y += 2
+
+        x += 5
+        z += 6
+        if self.flip:
+            x += 1
+
+        return [x, y, z]
+
+    def get_incoming_way_pos(self, x, y, z):
+        """
+        Return the position of the incoming way
+        This relative position to a given x, y, z pos
+        """
+        x, y, z = self.calculate_position_relative_to_door(x, y, z)
+        y += 2
+
+        x += 1
+        z += 6
+        if self.flip:
+            x += 5
+
+        return [x, y, z]
+
+    def generate(self, level, x, y, z):
+        """
+        Calculate the position to put the station,
+        positioning the station door(lower part) in front
+        of the given position x, y and z.
+        """
+
+        x, y, z = self.calculate_position_relative_to_door(x, y, z)
 
         return super(TwoWaysRailStationNS, self).generate(level, x, y, z)
 
@@ -319,9 +359,9 @@ class TwoWaysRailSystem(object):
         if self.direction == self.DIRECTIONS['south_north']:
             flip = True
 
-        rail_station_a = TwoWaysRailStationNS(flip=flip)
-        rail_station_a.load()
-        rail_station_a.generate(self.level, *self.point_a)
+        self.rail_station_a = TwoWaysRailStationNS(flip=flip)
+        self.rail_station_a.load()
+        self.rail_station_a.generate(self.level, *self.point_a)
 
     def generate_pb_rail_station(self):
         """
@@ -331,9 +371,18 @@ class TwoWaysRailSystem(object):
         if self.direction == self.DIRECTIONS['south_north']:
             flip = False
 
-        rail_station_b = TwoWaysRailStationNS(flip=flip)
-        rail_station_b.load()
-        rail_station_b.generate(self.level, *self.point_b)
+        self.rail_station_b = TwoWaysRailStationNS(flip=flip)
+        self.rail_station_b.load()
+        self.rail_station_b.generate(self.level, *self.point_b)
+
+    def generate_rail_ways(self):
+        """
+        Generate the outgoing and incoming rail ways,
+        from point a to point b, taking in consideration the
+        size of the Rail Stations.
+        """
+        rail_ways_start_pos = self.point_a
+        self.rail_station_a
 
     def generate(self):
         """
