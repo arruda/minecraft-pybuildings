@@ -41,7 +41,7 @@ test-all:
 	tox
 
 coverage:
-	coverage run --source minepybs setup.py test
+	coverage run setup.py test
 	coverage report -m
 	coverage html
 	open htmlcov/index.html
