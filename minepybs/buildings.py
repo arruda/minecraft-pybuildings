@@ -265,6 +265,7 @@ class TwoWaysRailSystem(object):
         self.point_b = point_b
 
         self.direction = 0
+        self.point_diff = [0, 0, 0]
         self.calculate_direction()
 
     def calculate_direction(self):
@@ -272,7 +273,7 @@ class TwoWaysRailSystem(object):
         set the correct direction,
         """
 
-        point_diff = [
+        self.point_diff = [
             self.point_a[0] - self.point_b[0],
             self.point_a[1] - self.point_b[1],
             self.point_a[2] - self.point_b[2]
@@ -284,17 +285,16 @@ class TwoWaysRailSystem(object):
         mod = lambda x: x if x > 0 else x*-1
 
         # dont compare Y for now, not sure it will be any different
-        # if mod(point_diff[1]) > mod(point_diff[most_diff_coord]):
+        # if mod(self.point_diff[1]) > mod(self.point_diff[most_diff_coord]):
         #     most_diff_coord = 1
-        if mod(point_diff[2]) > mod(point_diff[most_diff_coord]):
+        if mod(self.point_diff[2]) > mod(self.point_diff[most_diff_coord]):
             most_diff_coord = 2
 
-
         # check for the minimun distance for this Rail System
-        # if mod(point_diff[most_diff_coord]) < MINIMUM:
+        # if mod(self.point_diff[most_diff_coord]) < MINIMUM:
 
         # is either a North-South or East-West case
-        if point_diff[most_diff_coord] < 0:
+        if self.point_diff[most_diff_coord] < 0:
             # it's East-west
             if most_diff_coord == 0:
                 self.direction = self.DIRECTIONS['east_west']
@@ -303,7 +303,7 @@ class TwoWaysRailSystem(object):
                 self.direction = self.DIRECTIONS['north_south']
 
         # is either a South-North or West-East case
-        elif point_diff[most_diff_coord] > 0:
+        elif self.point_diff[most_diff_coord] > 0:
             # it's West-East
             if most_diff_coord == 0:
                 self.direction = self.DIRECTIONS['west_east']
@@ -315,6 +315,21 @@ class TwoWaysRailSystem(object):
         """
         generate the Rail Station for Point A
         """
+        flip = False
+        if self.direction == self.DIRECTIONS['south_north']:
+            flip = True
+
+        rail_station_a = TwoWaysRailStationNS(flip=flip)
+        rail_station_a.load()
+        rail_station_a.generate(self.level, *self.point_a)
+
+    def generate(self):
+        """
+        Generate the Rail System
+        """
+        self.generate_pa_rail_station()
+
+        return self.level
 
     def save_level(self):
         "save the level after what was generated"

@@ -3,7 +3,7 @@
 
 import mclevel
 
-from buildings import House, TwoWaysRailStationNS, RailWay
+from buildings import House, TwoWaysRailStationNS, RailWay, TwoWaysRailSystem
 
 
 def create_house_in_player_pos():
@@ -45,17 +45,26 @@ def create_rail_way_in_pos(level, x=0, y=0, z=0):
     # level.saveInPlace()
 
 
+def create_rail_system_from_a_to_b(level, point_a, point_b):
+    rail_system = TwoWaysRailSystem(level, point_a=point_a, point_b=point_b)
+    rail_system.generate()
+    rail_system.save_level()
+
+
 if __name__ == "__main__":
 
     level = mclevel.loadWorld("testworld")
-    dist = 50
-    create_rail_station_in_pos(level, 733, 6, 1453)
-    z_start = 1460
-    z_end = z_start + dist
-    for i in xrange(0, dist):
-        create_rail_way_in_pos(level, 731, 5, z_start+i)
-        create_rail_way_in_pos(level, 735, 5, z_start+i)
+    # dist = 50
+    # create_rail_station_in_pos(level, 733, 6, 1453)
+    # z_start = 1460
+    # z_end = z_start + dist
+    # for i in xrange(0, dist):
+    #     create_rail_way_in_pos(level, 731, 5, z_start+i)
+    #     create_rail_way_in_pos(level, 735, 5, z_start+i)
 
-    create_rail_station_in_pos(level, 733, 6, z_end + 6, flip=True)
-    level.generateLights()
-    level.saveInPlace()
+    # create_rail_station_in_pos(level, 733, 6, z_end + 6, flip=True)
+    # level.generateLights()
+    # level.saveInPlace()
+    point_a = [708, 3, 1455]
+    point_b = [708, 3, 1485]
+    create_rail_system_from_a_to_b(level, point_a=point_a, point_b=point_b)
