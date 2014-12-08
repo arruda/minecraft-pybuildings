@@ -165,5 +165,24 @@ class TestHouse(unittest.TestCase):
         # ensure the file locks are closed
         self.test_level.close()
 
+
+class TestTwoWaysRailSystem(unittest.TestCase):
+
+    def setUp(self):
+        # self.test_level = mclevel.fromFile("tests/test_map/testworld/level.dat")
+        pass
+
+    def test_calculate_direction_on_north_sount(self):
+        point_a = [0, 0, 0]
+        point_b = [2, 1, 3]
+        rail_system = buildings.TwoWaysRailSystem('level', point_a, point_b)
+        rail_system.calculate_direction()
+        self.assertEquals(rail_system.direction, 1)
+
+    def tearDown(self):
+        # ensure the file locks are closed
+        # self.test_level.close()
+        pass
+
 if __name__ == '__main__':
     unittest.main()

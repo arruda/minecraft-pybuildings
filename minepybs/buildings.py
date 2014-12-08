@@ -171,24 +171,24 @@ class TwoWaysRailStationBase(TemplateBuilding):
         return super(TwoWaysRailStationBase, self).generate(level, x, y, z)
 
 
-class TwoWaysRailStationSN(TwoWaysRailStationBase):
+class TwoWaysRailStationNS(TwoWaysRailStationBase):
     """
-    A Two Ways Rail Station from South-North/North-South.
+    A Two Ways Rail Station from North-South/South-North.
 
-    To change from South-North to North-South position one should
+    To change from North-South to South-North position one should
     pass the `flip=True` parameter when instantiating the class.
     By default `flip` is `False`.
     """
 
-    def __init__(self, template_name="2ways_rail_station_s_n.yml", flip=False):
+    def __init__(self, template_name="2ways_rail_station_n_s.yml", flip=False):
         self.flip = flip
-        super(TwoWaysRailStationSN, self).__init__(template_name=template_name)
+        super(TwoWaysRailStationNS, self).__init__(template_name=template_name)
 
     def load(self):
         """
         Loads the given template, but flip it if necessary.
         """
-        super(TwoWaysRailStationSN, self).load()
+        super(TwoWaysRailStationNS, self).load()
         if self.flip:
             size = self.template.get('size')
             for y in xrange(0, int(size[1])):
@@ -221,7 +221,7 @@ class TwoWaysRailStationSN(TwoWaysRailStationBase):
         if self.flip:
             z -= 6
 
-        return super(TwoWaysRailStationSN, self).generate(level, x, y, z)
+        return super(TwoWaysRailStationNS, self).generate(level, x, y, z)
 
 
 class RailWay(TemplateBuilding):
@@ -233,7 +233,7 @@ class RailWay(TemplateBuilding):
     (doesn't include curves)
     """
 
-    def __init__(self, template_name="rail_way_s_n.yml"):
+    def __init__(self, template_name="rail_way_n_s.yml"):
         super(RailWay, self).__init__(template_name=template_name)
 
     def generate(self, level, x=0, y=0, z=0):
@@ -245,3 +245,52 @@ class RailWay(TemplateBuilding):
         y -= 2
 
         return super(RailWay, self).generate(level, x, y, z)
+
+
+class TwoWaysRailSystem(object):
+    """
+    Creates a Rail system, that connects point A and point B.
+    It will create a Two Ways Rail Station in each point, and connects
+    them with Rail Ways for A->B travels and the other way around.
+    """
+
+    DIRECTIONS = {
+        1: "north_south",
+        2: "west_east",
+        3: "south_north",
+        4: "east_west",
+    }
+
+    def __init__(self, level, point_a, point_b):
+        super(TwoWaysRailSystem, self).__init__()
+        self.level = level
+        self.point_a = point_a
+        self.point_b = point_b
+
+        self.direction = 0
+        self.calculate_direction()
+
+    def calculate_direction(self):
+        """
+        set the correct direction,
+        """
+
+        point_dif = [
+            self.point_a[0] - self.point_b[0],
+            self.point_a[1] - self.point_b[1],
+            self.point_a[2] - self.point_b[2]
+        ]
+
+
+
+
+    def generate_pa_rail_station(self):
+        """
+        generate the Rail Station for Point A
+        """
+
+    def save_level(self):
+        "save the level after what was generated"
+        self.level.generateLights()
+        self.level.saveInPlace()
+        return self.level
