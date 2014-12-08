@@ -65,6 +65,10 @@ if __name__ == "__main__":
     # create_rail_station_in_pos(level, 733, 6, z_end + 6, flip=True)
     # level.generateLights()
     # level.saveInPlace()
-    point_a = [708, 3, 1455]
-    point_b = [708, 3, 1485]
+    point_a = [700, 7, 1450]
+    point_b = [700, 7, 1500]
+    create_rail_system_from_a_to_b(level, point_a=point_a, point_b=point_b)
+
+    point_b = [650, 7, 1450]
+    point_a = [650, 7, 1500]
     create_rail_system_from_a_to_b(level, point_a=point_a, point_b=point_b)

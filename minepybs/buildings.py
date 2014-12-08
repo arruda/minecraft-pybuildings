@@ -164,7 +164,6 @@ class TwoWaysRailStationBase(TemplateBuilding):
         positioning the station door(lower part) in front
         of the given position x, y and z.
         """
-        y -= 3
         return super(TwoWaysRailStationBase, self).generate(level, x, y, z)
 
 
@@ -214,6 +213,7 @@ class TwoWaysRailStationNS(TwoWaysRailStationBase):
         of the given position x, y and z.
         """
 
+        y -= 3
         x -= 3
         if self.flip:
             z -= 6
@@ -227,10 +227,11 @@ class TwoWaysRailStationNS(TwoWaysRailStationBase):
         x, y, z = self.calculate_position_relative_to_door(x, y, z)
         y += 2
 
-        x += 5
-        z += 6
         if self.flip:
             x += 1
+        else:
+            x += 5
+            z += 6
 
         return [x, y, z]
 
@@ -242,10 +243,11 @@ class TwoWaysRailStationNS(TwoWaysRailStationBase):
         x, y, z = self.calculate_position_relative_to_door(x, y, z)
         y += 2
 
-        x += 1
-        z += 6
         if self.flip:
             x += 5
+        else:
+            x += 1
+            z += 6
 
         return [x, y, z]
 
@@ -308,6 +310,26 @@ class TwoWaysRailSystem(object):
         self.point_diff = [0, 0, 0]
         self.calculate_direction()
 
+    def get_most_significative_coordinate(self):
+        """
+        Return what's the most significative coordinate
+        that is, 0, 1 or 2 for x, y and z respectively.
+        it compares the module (positive only) of each coordinate
+        of self.point_diff.
+        """
+        most_signif_coord = 0
+
+        # work with positive values for the comparisons
+        mod = lambda x: x if x > 0 else x*-1
+
+        # dont compare Y for now, not sure it will be any different
+        # if mod(self.point_diff[1]) > mod(self.point_diff[most_signif_coord]):
+        #     most_signif_coord = 1
+        if mod(self.point_diff[2]) > mod(self.point_diff[most_signif_coord]):
+            most_signif_coord = 2
+
+        return most_signif_coord
+
     def calculate_direction(self):
         """
         set the correct direction based on whats
@@ -321,33 +343,24 @@ class TwoWaysRailSystem(object):
             self.point_a[2] - self.point_b[2]
         ]
 
-        most_diff_coord = 0
-
-        # work with positive values for the comparisons
-        mod = lambda x: x if x > 0 else x*-1
-
-        # dont compare Y for now, not sure it will be any different
-        # if mod(self.point_diff[1]) > mod(self.point_diff[most_diff_coord]):
-        #     most_diff_coord = 1
-        if mod(self.point_diff[2]) > mod(self.point_diff[most_diff_coord]):
-            most_diff_coord = 2
+        most_signif_coord = self.get_most_significative_coordinate()
 
         # check for the minimun distance for this Rail System
-        # if mod(self.point_diff[most_diff_coord]) < MINIMUM:
+        # if mod(self.point_diff[most_signif_coord]) < MINIMUM:
 
         # is either a North-South or East-West case
-        if self.point_diff[most_diff_coord] < 0:
+        if self.point_diff[most_signif_coord] < 0:
             # it's East-west
-            if most_diff_coord == 0:
+            if most_signif_coord == 0:
                 self.direction = self.DIRECTIONS['east_west']
             # it's North-South
             else:
                 self.direction = self.DIRECTIONS['north_south']
 
         # is either a South-North or West-East case
-        elif self.point_diff[most_diff_coord] > 0:
+        elif self.point_diff[most_signif_coord] > 0:
             # it's West-East
-            if most_diff_coord == 0:
+            if most_signif_coord == 0:
                 self.direction = self.DIRECTIONS['west_east']
             # it's South-North
             else:
@@ -381,10 +394,51 @@ class TwoWaysRailSystem(object):
         """
         Generate the outgoing and incoming rail ways,
         from point a to point b, taking in consideration the
-        size of the Rail Stations.
+        size of the Rail Stations. So it calculates the amount of RailWays
+        based on the position of incoming/outgoing RailWays from
+        the RailStations of points A and B.
         """
-        rail_ways_start_pos = self.point_a
-        self.rail_station_a
+        rail_ways_out_start_pos = self.rail_station_a.get_outgoing_way_pos(*self.point_a)
+        rail_ways_in_start_pos = self.rail_station_a.get_incoming_way_pos(*self.point_a)
+
+        rail_ways_out_stop_pos = self.rail_station_b.get_outgoing_way_pos(*self.point_b)
+        rail_ways_in_stop_pos = self.rail_station_b.get_incoming_way_pos(*self.point_b)
+
+        most_signif_coord = self.get_most_significative_coordinate()
+        # work with positive values for the distance
+        mod = lambda x: x if x > 0 else x*-1
+
+        distance = mod(
+            rail_ways_out_start_pos[most_signif_coord] -
+            rail_ways_out_stop_pos[most_signif_coord]
+        )
+
+        cardinality = -1
+        if self.direction == self.DIRECTIONS.get('north_south') \
+                or self.direction == self.DIRECTIONS.get('east_west'):
+            cardinality = 1
+
+        array_copy = lambda arr: [arr[0], arr[1], arr[2]]
+
+        self.outgoing_rails = []
+        self.incoming_rails = []
+        for i in xrange(1, distance):
+            out_rail_pos = array_copy(rail_ways_out_start_pos)
+            out_rail_pos[most_signif_coord] += i * cardinality
+
+            outgoing_rail_way = RailWay()
+            outgoing_rail_way.load()
+            outgoing_rail_way.generate(self.level, *out_rail_pos)
+
+            in_rail_pos = array_copy(rail_ways_in_start_pos)
+            in_rail_pos[most_signif_coord] += i * cardinality
+
+            incoming_rail_way = RailWay()
+            incoming_rail_way.load()
+            incoming_rail_way.generate(self.level, *in_rail_pos)
+
+            self.outgoing_rails.append(outgoing_rail_way)
+            self.incoming_rails.append(incoming_rail_way)
 
     def generate(self):
         """
@@ -392,6 +446,7 @@ class TwoWaysRailSystem(object):
         """
         self.generate_pa_rail_station()
         self.generate_pb_rail_station()
+        self.generate_rail_ways()
 
         return self.level
 
