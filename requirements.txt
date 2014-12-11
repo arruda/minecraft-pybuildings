@@ -1,5 +1,1 @@
-Cython==0.21.1
-PyYAML==3.11
-numpy==1.9.1
 -e git+https://github.com/mcedit/pymclevel.git@8bf7b3d76479e007a51f3055198a8bcddb626c84#egg=pymclevel
-wheel==0.23.0
