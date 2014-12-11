@@ -26,7 +26,11 @@ Usage
 -----
 Ex: Build a two-ways Rail System from point A to point B with a just a couple lines of code:
 
-    level = mclevel.loadWorld("testworld")
+    import mclevel
+    from minepybs.buildings import TwoWaysRailSystem
+
+
+    level = mclevel.loadWorld("myworld")
     # X, Y and Z
     point_a = [100, 7, 1050]
     point_b = [100, 7, 1500]
@@ -39,6 +43,14 @@ This will give a rail station in point A, and point B, and two rail ways connect
 Also both rail ways are secure (closed and iluminated), powered and with view for the outside.
 
 This is just an example, if you want to change something, you can just inherit the TwoWaysRailSystem and modify it for you case.
+
+
+Install
+-------
+
+    pip install -e git+https://github.com/arruda/minecraft-pybuildings.git@master#egg=minepybs
+    pip install -e git+https://github.com/mcedit/pymclevel.git@master#egg=pymclevel
+
 
 
 * Free software: BSD license
