@@ -20,7 +20,26 @@ Minecraft-PyBuildings
     :alt: Documentation Status
 
 
-Some predefined structures using yaml and pymclevel to build them on any minecraft map
+Some predefined structures using yaml and pymclevel to build them on any minecraft map.
+
+Usage
+-----
+Ex: Build a two-ways Rail System from point A to point B with a just a couple lines of code:
+
+    level = mclevel.loadWorld("testworld")
+    # X, Y and Z
+    point_a = [100, 7, 1050]
+    point_b = [100, 7, 1500]
+
+    rail_system = TwoWaysRailSystem(level, point_a=point_a, point_b=point_b)
+    rail_system.generate()
+    rail_system.save_level()
+
+This will give a rail station in point A, and point B, and two rail ways connecting them, one for A->B, and the other for B->A.
+Also both rail ways are secure (closed and iluminated), powered and with view for the outside.
+
+This is just an example, if you want to change something, you can just inherit the TwoWaysRailSystem and modify it for you case.
+
 
 * Free software: BSD license
 * Documentation: https://minecraft-pybuildings.readthedocs.org.
